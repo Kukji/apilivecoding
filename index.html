@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- <div class="preloader">
+        <div class="preloader__row">
+            <div class="preloader__item">Сайт загружается</div>
+            <div class="preloader__item"></div>
+        </div>
+    </div> -->
+    <div class="container">
+        <ul class="comments" id="list">
+        </ul>
+        <div>
+            <p id="added-comment"></p>
+        </div>
+        <div id="add" class="add-form">
+            <input type="text" class="add-form-name" id="name-input" placeholder="Введите ваше имя" />
+            <textarea type="textarea" class="add-form-text" id="color-input" placeholder="Введите ваш коментарий"
+                rows="4"></textarea>
+            <div class="add-form-row">
+                <button class="add-form-button" id="add-button">Написать</button>
+            </div>
+        </div>
+    </div>
+    <style>
+        .error {
+            background-color: lightpink;
+        }
+    </style>
+</body>
+<script type="module" src="./main.js"></script>
+
+</html>
