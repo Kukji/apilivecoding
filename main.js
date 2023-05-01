@@ -44,7 +44,7 @@ export function likeButton() {
 
 let comment = []
 const host = "https://webdev-hw-api.vercel.app/api/v2/kulikov-arseniy/comments"
-let token = "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k"
+let token = null
 const GetRespone = () => {
     const fetchPromis = fetch(host, {
         method: "GET",
@@ -78,25 +78,56 @@ function renderCommit() {
         .map((comment, index) => {
             console.log(comment)
             return `<div>
-        <p class="added-comment"></p></div>
-            <li class = "comment data-comment="${comment.commit}"">
-        <div class = "comment-header">
-            <div> ${comment.name} </div>
-            <div> ${comment.date} </div>
+    <p class="added-comment"></p></div>
+        <li class = "comment data-comment="${comment.commit}"">
+    <div class = "comment-header">
+        <div> ${comment.name} </div>
+        <div> ${comment.date} </div>
+    </div>
+    <div class = "comment-body">
+        <div class = "comment-text">
+            ${comment.text}
         </div>
-        <div class = "comment-body">
-            <div class = "comment-text">
-                ${comment.text}
-            </div>
+    </div>
+    <div class ="comment-footer"
+        <div class = "likes"
+            <span class = "likes-counter" data-index = '${index}'> ${comment.likes}</span>
+            <button  data-index = '${index}' class = "like-button ${comment.isLiked}"></button>
         </div>
-        <div class ="comment-footer"
-            <div class = "likes"
-                <span class = "likes-counter" data-index = '${index}'> ${comment.likes}</span>
-                <button  data-index = '${index}' class = "like-button ${comment.isLiked}"></button>
-            </div>
-        </div>
-        </li>`
+    </div>
+    </li>`
         }).join("");
+
+
+    if (!token) {
+        const appHTML = ` 
+        <ul class="comments" id="list">
+        ${commitHTML}
+        </ul>
+        <div>
+            <p id="added-comment"></p>
+        </div>
+        <div id="add" class="add-form">
+            <input type="text" class="add-form-name" id="name-input" placeholder="Введите ваше имя" />
+            <textarea type="textarea" class="add-form-text" id="color-input" placeholder="Введите ваш коментарий"
+                rows="4"></textarea>
+            <div class="add-form-row">
+                <button class="add-form-button" id="add-button">Написать</button>
+            </div>
+            <button class="add-form-button" id="login-button">Войти, чтобы написать комментарий</button>
+        </div>
+        </div>`
+
+        appEl.innerHTML = appHTML;
+
+        document.getElementById('login-button').addEventListener('click', () => {
+            token = "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k";
+            GetRespone()
+        })
+
+        return
+    }
+
 
 
     const appHTML = `    <!-- <div class="preloader">
@@ -237,6 +268,7 @@ function renderCommit() {
 };
 
 GetRespone()
+renderCommit()
 // nameInputElement.style.backgroundColor = ""
 // commitInputElement.style.backgroundColor = "";
 
