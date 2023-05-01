@@ -171,6 +171,15 @@ body {
     border-radius: 8px;
     border: none;
   }
+  .add-form-name_form{
+    font-size: 16px;
+    font-family: Helvetica;
+    border-radius: 8px;
+    border: none;
+    background-color: #bcec30;
+    margin-top: 12px;
+    font-size: 31px;
+  }
 
   .add-form-name {
     width: 300px;
@@ -197,7 +206,19 @@ body {
     border-radius: 18px;
     cursor: pointer;
   }
-
+  .add-form-button_form {
+    margin-top: 12px;
+    font-size: 31px;
+    padding: 10px 240px;
+      padding-top: 10px;
+      padding-right: 240px;
+      padding-bottom: 10px;
+      padding-left: 240px;
+    background-color: #bcec30;
+    border: none;
+    border-radius: 54px;
+    cursor: pointer;
+  }
   .add-form-button:hover {
     opacity: 0.9;
   }

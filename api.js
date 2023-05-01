@@ -1,17 +1,20 @@
 import { DateElement } from "./main.js"
 import { renderCommit } from "./render.js"
 
-const nameInputElement = document.getElementById('name-input')
-const commitInputElement = document.getElementById('color-input')
-const addedCommentElement = document.getElementById('added-comment')
-const InputFormElement = document.getElementById('add')
+ const nameInputElement = document.getElementById('name-input')
+ const commitInputElement = document.getElementById('color-input')
+ const addedCommentElement = document.getElementById('added-comment')
+ const InputFormElement = document.getElementById('add')
 
-export let comment = []
+ let comment = []
 const host = "https://webdev-hw-api.vercel.app/api/v2/kulikov-arseniy/comments"
-let password = prompt("Ввести пароль(123456)");
-export const GetRespone = () => {
+let token = "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k"
+ const GetRespone = () => {
     const fetchPromis = fetch(host, {
-        method: "GET"
+        method: "GET",
+        headers: {
+            Authorization: token,
+        },
     });
 
     fetchPromis.then((response) => {
@@ -34,7 +37,7 @@ export const GetRespone = () => {
 }
 
 
-export function postResponse() {
+function postResponse() {
     fetch(host, {
         method: "POST",
         body: JSON.stringify({
@@ -42,7 +45,7 @@ export function postResponse() {
             name: nameInputElement.value,
             forceError: false,
             headers: {
-                Authorization: password,
+                Authorization: token,
             },
         })
     }).then((response) => {
@@ -69,4 +72,3 @@ export function postResponse() {
         console.warn(error);
     })
 }
-
