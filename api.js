@@ -1,15 +1,13 @@
-import { DateElement } from "./main.js"
-import { renderCommit } from "./render.js"
+import { DateElement, renderCommit, token, nameInputElement, commitInputElement, addedCommentElement, InputFormElement } from "./main.js"
 
- const nameInputElement = document.getElementById('name-input')
- const commitInputElement = document.getElementById('color-input')
- const addedCommentElement = document.getElementById('added-comment')
- const InputFormElement = document.getElementById('add')
+// const nameInputElement = document.getElementById('name-input')
+// const commitInputElement = document.getElementById('color-input')
+// const addedCommentElement = document.getElementById('added-comment')
+// const InputFormElement = document.getElementById('add')
 
- let comment = []
 const host = "https://webdev-hw-api.vercel.app/api/v2/kulikov-arseniy/comments"
-let token = "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k"
- const GetRespone = () => {
+export let comment = []
+export const GetRespone = () => {
     const fetchPromis = fetch(host, {
         method: "GET",
         headers: {
@@ -36,14 +34,11 @@ let token = "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k"
     });
 }
 
-
-function postResponse() {
+export function postResponse({ text, name, commentEl, formEl }) {
     fetch(host, {
         method: "POST",
         body: JSON.stringify({
-            text: commitInputElement.value,
-            name: nameInputElement.value,
-            forceError: false,
+            text, name,
             headers: {
                 Authorization: token,
             },
@@ -57,18 +52,18 @@ function postResponse() {
     }).then(() => {
         return GetRespone();
     }).then(() => {
-        addedCommentElement.style.display = "none";
-        InputFormElement.style.display = "flex";
-        nameInputElement.value = ""
-        commitInputElement.value = ""
+        commentEl.display = "none";
+        formEl.display = "flex";
+        name = ""
+        text = ""
     }).catch((error) => {
         console.log("Error mesage =", error.message)
 
-        if (nameInputElement.value.length < 3 || commitInputElement.value.length < 3) {
+        if (name.length < 3 || text.length < 3) {
             alert("Имя и комментарий должны быть не короче 3-х символов")
         } else { alert("Сервер упал") }
-        addedCommentElement.style.display = "none";
-        InputFormElement.style.display = "flex";
+        commentEl.display = "none";
+        formEl.display = "flex";
         console.warn(error);
     })
 }
