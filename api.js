@@ -1,9 +1,4 @@
-import { DateElement, renderCommit, token, nameInputElement, commitInputElement, addedCommentElement, InputFormElement } from "./main.js"
-
-// const nameInputElement = document.getElementById('name-input')
-// const commitInputElement = document.getElementById('color-input')
-// const addedCommentElement = document.getElementById('added-comment')
-// const InputFormElement = document.getElementById('add')
+import { DateElement, renderCommit, token } from "./main.js"
 
 const host = "https://webdev-hw-api.vercel.app/api/v2/kulikov-arseniy/comments"
 export let comment = []
@@ -66,4 +61,19 @@ export function postResponse({ text, name, commentEl, formEl }) {
         formEl.display = "flex";
         console.warn(error);
     })
+}
+
+export function loginUser({ login, password }) {
+    return fetch("https://webdev-hw-api.vercel.app/api/user/login", {
+        method: "POST",
+        body: JSON.stringify({
+            login,
+            password,
+        }),
+    }).then((response) => {
+        if (response.status === 400) {
+            throw new Error('Неверный логин или пароль')
+        }
+        return response.json();
+    });
 }
