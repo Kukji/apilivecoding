@@ -1,16 +1,38 @@
 //Вся логика связанная с логикой входа
-import { loginUser } from '../api.js';
+//1. Перенести в renderForm всё что связано с комментарием без добавления!
+//2. Мы должны в document.getElementById('login-button').addEventListener при клике
+// рендерить форму входа/регистрации. 
+import { loginUser, registerUser } from '../api.js';
 
-export function renderLoginComponent({ appEl, setToken, GetRespone }) {
-    let isLoginMode = false;
+export function renderLoginComponent({ appEl, setToken, GetRespone, commitHTML }) {
+    let isLoginMode = true;
 
     const renderForm = () => {
-        const appHTML = ` 
-        <div class="container">
+        let appHTML = ` 
+        <ul class="comments" id="list">
+                ${commitHTML}
+                </ul>
+                <div class="add-form-row">
+                        <button class="add-form-button" id="login-button">Чтобы написать комментарий, войдите</button>
+                    </div>
+                <style>
+                    .error {
+                        background-color: lightpink;
+                    }
+                </style>`
+
+        appEl.innerHTML = appHTML;
+        //Рендер ленты комментариев - первый рендер
+
+        //Рендер формы входа
+        const renderReg = () => {
+            appHTML = `
+            <div class="container">
         <div class="add-form">
-        <h3> Форма ${isLoginMode ? 'входа' : 'регистрации'}</h3>
+        <h3> Форма ${isLoginMode ?
+                    "входа" : "регистрации"}</h3>
         ${isLoginMode ? '' : `Имя
-        <input type="password" id="name-input" class="input" />
+        <input type="text" id="name-input" class="input" />
         <br />`}    
             Логин
             <input type="text" id="login-input" class="input" />
@@ -27,33 +49,85 @@ export function renderLoginComponent({ appEl, setToken, GetRespone }) {
         <button class="button" id="toggle-button">Перейти к ${isLoginMode ? 'к регистрации' : 'к входу'} </button>
     
     </div>`
+            document.getElementById('login-button').addEventListener('click', () => {
+                console.log("Кнопка рендер входа нажата")
+                appEl.innerHTML = appHTML
 
-        appEl.innerHTML = appHTML;
+                let onclickForm = document.getElementById("login-button")
+                onclickForm.onclick = function () {
+                    console.log("Кнопка  входа нажата")
 
-        document.getElementById('login-button').addEventListener('click', () => {
-            const login = document.getElementById('login-input').value
-            const password = document.getElementById('password-input')
-            if (!login) {
-                alert('Введите логин')
-            }
-            if (!password) {
-                alert('Введите пароль')
-            }
-            loginUser({
-                login: login,
-                password: password,
-            }).then((user) => {
-                setToken(`Bearer ${user.user.token}`);
-                GetRespone();
+                    if (isLoginMode) {
+                        const login = document.getElementById('login-input').value
+                        const password = document.getElementById('password-input').value
+                        if (!login) {
+                            alert('Введите логин')
+                        }
+                        if (!password) {
+                            alert('Введите пароль')
+                        }
+                        loginUser({
+                            login: login,
+                            password: password,
 
-            }).catch((error) => {
-                alert(error.message)
+                        }).then((user) => {
+                            setToken(`Bearer ${user.user.token}`);
+                            GetRespone();
+
+                        }).catch((error) => {
+                            alert(error.message)
+                        })
+                    } else {
+                        const login = document.getElementById('login-input').value
+                        const password = document.getElementById('password-input').value
+                        const NameUser = document.getElementById('name-input').value
+                        if (!NameUser) {
+                            alert('Введите имя')
+                        }
+
+                        if (!login) {
+                            alert('Введите логин')
+                        }
+                        if (!password) {
+                            alert('Введите пароль')
+                        }
+                        registerUser({
+                            login: login,
+                            password: password,
+                            name: NameUser,
+                        }).then((user) => {
+                            setToken(`Bearer ${user.user.token}`);
+                            GetRespone();
+
+                        }).catch((error) => {
+                            alert(error.message)
+                        })
+                        // isLoginMode = !isLoginMode
+                    }
+
+                    // document.getElementById("toggle-button").addEventListener('click', () => {
+                    //     isLoginMode = !isLoginMode;
+                    //     renderReg()
+                    // })
+
+                }
+
+
             })
-        })
-        document.getElementById('toggle-button').addEventListener('click', () => {
-            isLoginMode = !isLoginMode;
-            renderForm()
-        })
+
+        }
+
+        renderReg()
+
     }
+
+
     renderForm()
 }
+
+// let changeForm = document.getElementById('toggle-button').onclick = function () {
+//     document.querySelector('toggle-button').addEventListener('click', () => {
+//         isLoginMode = !isLoginMode;
+//         console.log("Нажал")
+//     })
+// }
