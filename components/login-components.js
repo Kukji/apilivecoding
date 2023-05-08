@@ -1,7 +1,3 @@
-//Вся логика связанная с логикой входа
-//1. Перенести в renderForm всё что связано с комментарием без добавления!
-//2. Мы должны в document.getElementById('login-button').addEventListener при клике
-// рендерить форму входа/регистрации. 
 import { loginUser, registerUser } from '../api.js';
 
 export function renderLoginComponent({ appEl, setToken, GetRespone, commitHTML }) {
@@ -42,11 +38,9 @@ export function renderLoginComponent({ appEl, setToken, GetRespone, commitHTML }
     
         </div>
         <br />
-        <button class="button" id="login-button">${isLoginMode ? 'Войти' : 'Зарегестироваться'}</button>
+        <button class="add-form-button" id="login-button">${isLoginMode ? 'Войти' : 'Зарегестироваться'}</button>
         <br />
-        <br />
-        <br />
-        <button class="button" id="toggle-button">Перейти к ${isLoginMode ? 'к регистрации' : 'к входу'} </button>
+        <button class="add-form-button" id="toggle-button"> Перейти к ${isLoginMode ? 'к регистрации' : 'к входу'} </button>
     
     </div>`
             document.getElementById('login-button').addEventListener('click', () => {
@@ -102,16 +96,20 @@ export function renderLoginComponent({ appEl, setToken, GetRespone, commitHTML }
                         }).catch((error) => {
                             alert(error.message)
                         })
-                        // isLoginMode = !isLoginMode
                     }
 
-                    // document.getElementById("toggle-button").addEventListener('click', () => {
-                    //     isLoginMode = !isLoginMode;
-                    //     renderReg()
-                    // })
+                    document.getElementById("toggle-button").addEventListener('click', () => {
+                        isLoginMode = !isLoginMode;
+                        renderReg()
+                    })
 
                 }
 
+                document.getElementById("toggle-button").addEventListener('click', () => {
+                    isLoginMode = !isLoginMode;
+                    renderReg()
+                    console.log('Кнопка регистрации нажата');
+                })
 
             })
 
@@ -125,9 +123,3 @@ export function renderLoginComponent({ appEl, setToken, GetRespone, commitHTML }
     renderForm()
 }
 
-// let changeForm = document.getElementById('toggle-button').onclick = function () {
-//     document.querySelector('toggle-button').addEventListener('click', () => {
-//         isLoginMode = !isLoginMode;
-//         console.log("Нажал")
-//     })
-// }

@@ -29,11 +29,11 @@ export const GetRespone = () => {
     });
 }
 
-export function postResponse({ text, name, commentEl, formEl }) {
+export function postResponse({ text, nameEl, commentEl, formEl }) {
     fetch(host, {
         method: "POST",
         body: JSON.stringify({
-            text, name,
+            text, nameEl,
             headers: {
                 Authorization: token,
             },
@@ -49,12 +49,12 @@ export function postResponse({ text, name, commentEl, formEl }) {
     }).then(() => {
         commentEl.display = "none";
         formEl.display = "flex";
-        name = ""
+        nameEl = ""
         text = ""
     }).catch((error) => {
         console.log("Error mesage =", error.message)
 
-        if (name.length < 3 || text.length < 3) {
+        if (nameEl.length < 3 || text.length < 3) {
             alert("Имя и комментарий должны быть не короче 3-х символов")
         } else { alert("Сервер упал") }
         commentEl.display = "none";
@@ -73,6 +73,22 @@ export function loginUser({ login, password }) {
     }).then((response) => {
         if (response.status === 400) {
             throw new Error('Неверный логин или пароль')
+        }
+        return response.json();
+    });
+}
+
+export function registerUser({ login, password, name }) {
+    return fetch("https://webdev-hw-api.vercel.app/api/user", {
+        method: "POST",
+        body: JSON.stringify({
+            login,
+            password,
+            name,
+        }),
+    }).then((response) => {
+        if (response.status === 400) {
+            throw new Error("Такой пользователь уже существует");
         }
         return response.json();
     });

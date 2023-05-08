@@ -1,4 +1,3 @@
-//Пока что всё находится без рефакторинга, но это будет выполненно на финальной версии
 import { renderLoginComponent } from "./components/login-components.js"
 import { GetRespone, postResponse, comment } from "./api.js"
 window.onload = function () {
@@ -8,15 +7,8 @@ window.onload = function () {
         document.body.classList.remove('loaded_hiding');
     }, 500);
 }
-export const buttonElement = document.getElementById('add-button')
-export const nameInputElement = document.getElementById('name-input')
-export const commitInputElement = document.getElementById('color-input')
-export const addedCommentElement = document.getElementById('added-comment')
-export const InputFormElement = document.getElementById('add')
-
 
 export let token = "Bearer asb4c4boc86gasb4c4boc86g37k3bk3cg3c03ck3k37w3cc3bo3b8";
-// export let comment = []
 
 token = null
 export function DateElement() {
@@ -82,13 +74,11 @@ export function renderCommit() {
             appEl, setToken: (NewToken) => {
                 token = NewToken
             },
-            GetRespone,
+            GetRespone, commitHTML
         })
 
         return
     }
-
-
 
     const appHTML = `
                 <ul class="comments" id="list">
@@ -119,7 +109,7 @@ export function renderCommit() {
     const addedCommentElement = document.getElementById('added-comment')
     const InputFormElement = document.getElementById('add')
     likeButton();
-    // initEventList()
+    //initEventList()
     const initAnswer = () => {
         const liElements = document.querySelectorAll(".comment")
 
@@ -170,7 +160,7 @@ export function renderCommit() {
         GetRespone()
         postResponse({
             text: commitInputElement.value,
-            name: nameInputElement.value,
+            nameEl: nameInputElement.value,
             commentEl: addedCommentElement.style,
             formEl: InputFormElement.style
         })
